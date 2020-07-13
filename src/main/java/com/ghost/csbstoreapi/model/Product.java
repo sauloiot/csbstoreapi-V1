@@ -1,6 +1,10 @@
 package com.ghost.csbstoreapi.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,7 +21,8 @@ public class Product implements Serializable {
     private String name;
     private Double price;
 
-
+    @JsonBackReference
+//    @JsonIgnoreProperties("products")
     @ManyToMany
     @JoinTable(name = "PRODUCT_CATEGORY",
             joinColumns = @JoinColumn(name = "product_id"),
