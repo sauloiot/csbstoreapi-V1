@@ -2,8 +2,12 @@ package com.ghost.csbstoreapi.config;
 
 import com.ghost.csbstoreapi.model.Category;
 import com.ghost.csbstoreapi.model.Product;
+import com.ghost.csbstoreapi.model.location.City;
+import com.ghost.csbstoreapi.model.location.State;
 import com.ghost.csbstoreapi.repositories.CategoryRepository;
+import com.ghost.csbstoreapi.repositories.CityRepository;
 import com.ghost.csbstoreapi.repositories.ProductRepository;
+import com.ghost.csbstoreapi.repositories.StateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -17,9 +21,12 @@ public class DbLoad implements CommandLineRunner {
 
     @Autowired
     private CategoryRepository categoryRepository;
-
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private StateRepository stateRepository;
+    @Autowired
+    private CityRepository cityRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -41,6 +48,18 @@ public class DbLoad implements CommandLineRunner {
         categoryRepository.saveAll(Arrays.asList(cat1, cat2));
         productRepository.saveAll(Arrays.asList(prod1,prod2,prod3));
 
+        State st1 = new State(null, "Alagoas");
+        State st2 = new State(null, "São Paulo");
+
+        City city1 = new City(null, "Maceió", st1);
+        City city2 = new City(null, "São Paulo", st2);
+        City city3 = new City(null, "Campinas", st2);
+
+        st1.getCityList().addAll(Arrays.asList(city1));
+        st2.getCityList().addAll(Arrays.asList(city2, city3));
+
+        stateRepository.saveAll(Arrays.asList(st1, st2));
+        cityRepository.saveAll(Arrays.asList(city1,city2,city3));
 
     }
 }

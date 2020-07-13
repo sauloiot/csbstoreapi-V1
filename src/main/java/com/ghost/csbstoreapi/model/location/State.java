@@ -1,8 +1,4 @@
-package com.ghost.csbstoreapi.model;
-
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+package com.ghost.csbstoreapi.model.location;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,7 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Category implements Serializable {
+public class State implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -19,15 +15,13 @@ public class Category implements Serializable {
     private Integer id;
     private String name;
 
-//    @JsonManagedReference
-   // @JsonIgnoreProperties("categories")
-    @ManyToMany(mappedBy = "categories")
-    private List<Product> products = new ArrayList<>();
+    @OneToMany(mappedBy = "state")
+    private List<City> cityList = new ArrayList<>();
 
-    public Category() {
+    public State() {
     }
 
-    public Category(Integer id, String name) {
+    public State(Integer id, String name) {
         super();
         this.id = id;
         this.name = name;
@@ -49,33 +43,24 @@ public class Category implements Serializable {
         this.name = name;
     }
 
-    //getter and setter PRODUCTS
-    public List<Product> getProducts() {
-        return products;
+    public List<City> getCityList() {
+        return cityList;
     }
 
-    public void setProducts(List<Product> products) {
-        this.products = products;
+    public void setCityList(List<City> cityList) {
+        this.cityList = cityList;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Category category = (Category) o;
-        return id.equals(category.id);
+        State state = (State) o;
+        return id.equals(state.id);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id);
-    }
-
-    @Override
-    public String toString() {
-        return "category{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
     }
 }
