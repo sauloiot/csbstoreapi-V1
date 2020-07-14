@@ -2,12 +2,12 @@ package com.ghost.csbstoreapi.config;
 
 import com.ghost.csbstoreapi.model.Category;
 import com.ghost.csbstoreapi.model.Product;
+import com.ghost.csbstoreapi.model.enums.ClientType;
 import com.ghost.csbstoreapi.model.location.City;
 import com.ghost.csbstoreapi.model.location.State;
-import com.ghost.csbstoreapi.repositories.CategoryRepository;
-import com.ghost.csbstoreapi.repositories.CityRepository;
-import com.ghost.csbstoreapi.repositories.ProductRepository;
-import com.ghost.csbstoreapi.repositories.StateRepository;
+import com.ghost.csbstoreapi.model.user.Address;
+import com.ghost.csbstoreapi.model.user.Client;
+import com.ghost.csbstoreapi.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +27,10 @@ public class DbLoad implements CommandLineRunner {
     private StateRepository stateRepository;
     @Autowired
     private CityRepository cityRepository;
+    @Autowired
+    private ClientRepository clientRepository;
+    @Autowired
+    private AddressRepository addressRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -61,5 +65,14 @@ public class DbLoad implements CommandLineRunner {
         stateRepository.saveAll(Arrays.asList(st1, st2));
         cityRepository.saveAll(Arrays.asList(city1,city2,city3));
 
+        Client cli1 = new Client(null, "Chuck Norris", "CN@hotmail.com", "000.000.001-01", ClientType.PHYSICALPERSON );
+        cli1.getPhones().addAll(Arrays.asList("000000001", "000000002"));
+
+        Address address1 = new Address(null, "Rua Chuck","1", "The Home", "The District", "00001-001", cli1, city1);
+        Address address2 = new Address(null, "Vera Arruda","175", "Apartamento", "Ponta verde", "00001-001", cli1, city1);
+        cli1.getAddressList().addAll(Arrays.asList(address1,address2));
+
+        clientRepository.saveAll(Arrays.asList(cli1));
+        addressRepository.saveAll(Arrays.asList(address1, address2));
     }
 }
