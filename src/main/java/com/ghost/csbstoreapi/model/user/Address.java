@@ -1,5 +1,6 @@
 package com.ghost.csbstoreapi.model.user;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.ghost.csbstoreapi.model.location.City;
 
 import javax.persistence.*;
@@ -19,6 +20,7 @@ public class Address implements Serializable {
     private String district;
     private String cep;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;

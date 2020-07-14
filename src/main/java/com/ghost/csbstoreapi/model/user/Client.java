@@ -1,5 +1,7 @@
 package com.ghost.csbstoreapi.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.ghost.csbstoreapi.model.enums.ClientType;
 
 import javax.persistence.*;
@@ -18,7 +20,8 @@ public class Client implements Serializable {
     private String cpfOrCnpj;
     private Integer typeClient;
 
-
+    @JsonManagedReference
+//    @JsonIgnoreProperties("client")
     @OneToMany(mappedBy = "client")
     private List<Address> addressList = new ArrayList<>();
 
