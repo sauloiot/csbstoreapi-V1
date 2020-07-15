@@ -3,6 +3,7 @@ package com.ghost.csbstoreapi.model.user;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.ghost.csbstoreapi.model.enums.ClientType;
+import com.ghost.csbstoreapi.model.purchase.Order;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -28,6 +29,8 @@ public class Client implements Serializable {
     @ElementCollection
     @CollectionTable(name = "PHONE")
     private Set<String> phones = new HashSet<>();
+
+    private List<Order> orderList = new ArrayList<>();
 
     public Client() {
     }
@@ -95,6 +98,15 @@ public class Client implements Serializable {
     public void setPhones(Set<String> phones) {
         this.phones = phones;
     }
+
+    //LIST ORDER
+    public List<Order> getOrderList() {
+        return orderList;
+    }
+    public void setOrderList(List<Order> orderList) {
+        this.orderList = orderList;
+    }
+
 
     @Override
     public boolean equals(Object o) {
