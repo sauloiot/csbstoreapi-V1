@@ -2,8 +2,10 @@ package com.ghost.csbstoreapi.model.purchase;
 
 import com.ghost.csbstoreapi.model.enums.StatePayment;
 
+import javax.persistence.Entity;
 import java.util.Date;
 
+@Entity
 public class PaymentSlip extends Payment{
     private static final long serialVersionUID = 1L;
     private Date expireDate;
@@ -12,7 +14,7 @@ public class PaymentSlip extends Payment{
     public PaymentSlip() {
     }
 
-    public PaymentSlip(Integer id, StatePayment statePayment, Order order, Date expireDate, Date paymentDate) {
+    public PaymentSlip(Integer id, StatePayment statePayment, Experiment order, Date expireDate, Date paymentDate) {
         super(id, statePayment, order);
         this.expireDate = expireDate;
         this.paymentDate = paymentDate;

@@ -6,13 +6,13 @@ public enum StatePayment {
     PAID(2, "Payment Paid"),
     CANCELED(3, "Payment Canceled");
 
-   private int cod;
-   private String description;
+    private int cod;
+    private String description;
 
-   private StatePayment(int cod, String description){
-       this.cod = cod;
-       this.description = description;
-   }
+    private StatePayment(int cod, String description){
+        this.cod = cod;
+        this.description = description;
+    }
 
     public int getCod() {
         return cod;
@@ -23,15 +23,15 @@ public enum StatePayment {
     }
 
     public static StatePayment toEnum(Integer cod){
-       if (cod == null){
-           return null;
-       }
-       for(StatePayment x : StatePayment.values()){
+        if (cod == null){
+            return null;
+        }
+        for(StatePayment x : StatePayment.values()){
 
-           if (cod.equals(x.getCod())){
-               return x;
-           }
-       }
-       throw new IllegalArgumentException("Invalid id " + cod);
+            if (cod.equals(x.getCod())){
+                return x;
+            }
+        }
+        throw new IllegalArgumentException("Invalid id " + cod);
     }
 }

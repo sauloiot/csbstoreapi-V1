@@ -1,21 +1,30 @@
 package com.ghost.csbstoreapi.model.purchase;
 
+
+
 import com.ghost.csbstoreapi.model.enums.StatePayment;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Payment implements Serializable {
     private static final long serialVersionUID = 1L;
+    @Id
     private Integer id;
     private StatePayment statePayment;
 
-    private Order order;
+    @OneToOne
+    @JoinColumn(name = "order_id")
+    @MapsId
+    private Experiment order;
 
     public Payment() {
     }
 
-    public Payment(Integer id, StatePayment statePayment, Order order) {
+    public Payment(Integer id, StatePayment statePayment, Experiment order) {
         super();
         this.id = id;
         this.statePayment = statePayment;
@@ -38,11 +47,11 @@ public class Payment implements Serializable {
         this.statePayment = statePayment;
     }
 
-    public Order getOrder() {
+    public Experiment getOrder() {
         return order;
     }
 
-    public void setOrder(Order order) {
+    public void setOrder(Experiment order) {
         this.order = order;
     }
 
