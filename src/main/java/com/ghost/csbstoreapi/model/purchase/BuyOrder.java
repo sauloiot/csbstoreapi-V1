@@ -32,11 +32,10 @@ public class BuyOrder implements Serializable {
     public BuyOrder() {
     }
 
-    public BuyOrder(Integer id, Date instant, Payment payment, Client client, Address address) {
+    public BuyOrder(Integer id, Date instant, Client client, Address address) {
         super();
         this.id = id;
         this.instant = instant;
-        this.payment = payment;
         this.client = client;
         this.address = address;
     }

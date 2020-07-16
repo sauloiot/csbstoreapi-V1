@@ -3,8 +3,13 @@ package com.ghost.csbstoreapi.config;
 import com.ghost.csbstoreapi.model.Category;
 import com.ghost.csbstoreapi.model.Product;
 import com.ghost.csbstoreapi.model.enums.ClientType;
+import com.ghost.csbstoreapi.model.enums.StatePayment;
 import com.ghost.csbstoreapi.model.location.City;
 import com.ghost.csbstoreapi.model.location.State;
+import com.ghost.csbstoreapi.model.purchase.BuyOrder;
+import com.ghost.csbstoreapi.model.purchase.Payment;
+import com.ghost.csbstoreapi.model.purchase.PaymentCard;
+import com.ghost.csbstoreapi.model.purchase.PaymentSlip;
 import com.ghost.csbstoreapi.model.user.Address;
 import com.ghost.csbstoreapi.model.user.Client;
 import com.ghost.csbstoreapi.repositories.*;
@@ -13,6 +18,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 @Configuration
@@ -31,6 +37,10 @@ public class DbLoad implements CommandLineRunner {
     private ClientRepository clientRepository;
     @Autowired
     private AddressRepository addressRepository;
+    @Autowired
+    private BuyOrderRepository buyOrderRepository;
+    @Autowired
+    private PaymentRepository paymentRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -74,5 +84,22 @@ public class DbLoad implements CommandLineRunner {
 
         clientRepository.saveAll(Arrays.asList(cli1));
         addressRepository.saveAll(Arrays.asList(address1, address2));
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        BuyOrder bo1 = new BuyOrder(null, sdf.parse("30/09/2017 10:32"), cli1, address1 );
+        BuyOrder bo2 = new BuyOrder(null, sdf.parse("02/10/2017 09:02"), cli1, address2 );
+
+        Payment pay1 = new PaymentCard(null, StatePayment.PAID, bo1, 6);
+        bo1.setPayment(pay1);
+
+        Payment pay2 = new PaymentSlip(null, StatePayment.PENDING, bo2, sdf.parse("20/10/2017 00:00"), null);
+        bo2.setPayment(pay2);
+
+        cli1.getOrderList().addAll(Arrays.asList(bo1, bo2));
+
+        buyOrderRepository.saveAll(Arrays.asList(bo1,bo2));
+        paymentRepository.saveAll(Arrays.asList(pay1,pay2));
+
+
     }
 }

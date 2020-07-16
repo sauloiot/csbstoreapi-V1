@@ -10,11 +10,11 @@ import java.util.Objects;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Payment implements Serializable {
+public abstract class Payment implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     private Integer id;
-    private StatePayment statePayment;
+    private Integer statePayment;
 
     @OneToOne
     @JoinColumn(name = "buy_order_id")
@@ -27,7 +27,7 @@ public class Payment implements Serializable {
     public Payment(Integer id, StatePayment statePayment, BuyOrder buyOrder) {
         super();
         this.id = id;
-        this.statePayment = statePayment;
+        this.statePayment = statePayment.getCod();
         this.buyOrder = buyOrder;
     }
 
@@ -40,11 +40,11 @@ public class Payment implements Serializable {
     }
 
     public StatePayment getStatePayment() {
-        return statePayment;
+        return StatePayment.toEnum(statePayment);
     }
 
     public void setStatePayment(StatePayment statePayment) {
-        this.statePayment = statePayment;
+        this.statePayment = statePayment.getCod();
     }
 
     public BuyOrder getOrder() {
