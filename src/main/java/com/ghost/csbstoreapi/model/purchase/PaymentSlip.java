@@ -14,8 +14,8 @@ public class PaymentSlip extends Payment{
     public PaymentSlip() {
     }
 
-    public PaymentSlip(Integer id, StatePayment statePayment, Experiment order, Date expireDate, Date paymentDate) {
-        super(id, statePayment, order);
+    public PaymentSlip(Integer id, StatePayment statePayment, BuyOrder buyOrder, Date expireDate, Date paymentDate) {
+        super(id, statePayment, buyOrder);
         this.expireDate = expireDate;
         this.paymentDate = paymentDate;
     }

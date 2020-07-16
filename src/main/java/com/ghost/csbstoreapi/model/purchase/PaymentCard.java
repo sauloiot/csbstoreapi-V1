@@ -12,8 +12,8 @@ public class PaymentCard extends Payment{
     public PaymentCard() {
     }
 
-    public PaymentCard(Integer id, StatePayment statePayment, Experiment order, Integer portionNumber) {
-        super(id, statePayment, order);
+    public PaymentCard(Integer id, StatePayment statePayment, BuyOrder buyOrder, Integer portionNumber) {
+        super(id, statePayment, buyOrder);
         this.portionNumber = portionNumber;
     }
 

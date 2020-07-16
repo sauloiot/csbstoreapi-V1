@@ -1,10 +1,9 @@
 package com.ghost.csbstoreapi.model.user;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.ghost.csbstoreapi.model.enums.ClientType;
-import com.ghost.csbstoreapi.model.purchase.Experiment;
+import com.ghost.csbstoreapi.model.purchase.BuyOrder;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -33,7 +32,7 @@ public class Client implements Serializable {
 
     @JsonBackReference
     @OneToMany(mappedBy = "client")
-    private List<Experiment> orderList = new ArrayList<>();
+    private List<BuyOrder> buyOrderList = new ArrayList<>();
 
     public Client() {
     }
@@ -103,11 +102,11 @@ public class Client implements Serializable {
     }
 
     //LIST ORDER
-    public List<Experiment> getOrderList() {
-        return orderList;
+    public List<BuyOrder> getOrderList() {
+        return buyOrderList;
     }
-    public void setOrderList(List<Experiment> orderList) {
-        this.orderList = orderList;
+    public void setOrderList(List<BuyOrder> buyOrderList) {
+        this.buyOrderList = buyOrderList;
     }
 
 

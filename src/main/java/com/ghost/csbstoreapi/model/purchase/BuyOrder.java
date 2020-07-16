@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.Objects;
 
 @Entity
-public class Experiment implements Serializable {
+public class BuyOrder implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -17,7 +17,7 @@ public class Experiment implements Serializable {
     private Integer id;
     private Date instant;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "order")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "buyOrder")
     private Payment payment;
 
     @ManyToOne
@@ -29,10 +29,10 @@ public class Experiment implements Serializable {
     @OneToOne
     private Address address;
 
-    public Experiment() {
+    public BuyOrder() {
     }
 
-    public Experiment(Integer id, Date instant, Payment payment, Client client, Address address) {
+    public BuyOrder(Integer id, Date instant, Payment payment, Client client, Address address) {
         super();
         this.id = id;
         this.instant = instant;
@@ -85,8 +85,8 @@ public class Experiment implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Experiment order = (Experiment) o;
-        return id.equals(order.id);
+        BuyOrder buyOrder = (BuyOrder) o;
+        return id.equals(buyOrder.id);
     }
 
     @Override

@@ -17,18 +17,18 @@ public class Payment implements Serializable {
     private StatePayment statePayment;
 
     @OneToOne
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "buy_order_id")
     @MapsId
-    private Experiment order;
+    private BuyOrder buyOrder;
 
     public Payment() {
     }
 
-    public Payment(Integer id, StatePayment statePayment, Experiment order) {
+    public Payment(Integer id, StatePayment statePayment, BuyOrder buyOrder) {
         super();
         this.id = id;
         this.statePayment = statePayment;
-        this.order = order;
+        this.buyOrder = buyOrder;
     }
 
     public Integer getId() {
@@ -47,12 +47,12 @@ public class Payment implements Serializable {
         this.statePayment = statePayment;
     }
 
-    public Experiment getOrder() {
-        return order;
+    public BuyOrder getOrder() {
+        return buyOrder;
     }
 
-    public void setOrder(Experiment order) {
-        this.order = order;
+    public void setOrder(BuyOrder buyOrder) {
+        this.buyOrder = buyOrder;
     }
 
     @Override
