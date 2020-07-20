@@ -6,7 +6,9 @@ import com.ghost.csbstoreapi.model.user.Client;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class BuyOrder implements Serializable {
@@ -28,6 +30,9 @@ public class BuyOrder implements Serializable {
 //    @ManyToOne
     @OneToOne
     private Address address;
+
+    @OneToMany(mappedBy = "orderItemPK.buyOrder")
+    private Set<OrderItem> orderItemSet = new HashSet<>();
 
     public BuyOrder() {
     }
@@ -80,6 +85,15 @@ public class BuyOrder implements Serializable {
         this.address = address;
     }
 
+    //ORDER ITEM
+    public Set<OrderItem> getOrderItemSet() {
+        return orderItemSet;
+    }
+
+    public void setOrderItemSet(Set<OrderItem> orderItemSet) {
+        this.orderItemSet = orderItemSet;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -92,4 +106,6 @@ public class BuyOrder implements Serializable {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+
 }

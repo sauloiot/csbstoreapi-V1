@@ -6,10 +6,7 @@ import com.ghost.csbstoreapi.model.enums.ClientType;
 import com.ghost.csbstoreapi.model.enums.StatePayment;
 import com.ghost.csbstoreapi.model.location.City;
 import com.ghost.csbstoreapi.model.location.State;
-import com.ghost.csbstoreapi.model.purchase.BuyOrder;
-import com.ghost.csbstoreapi.model.purchase.Payment;
-import com.ghost.csbstoreapi.model.purchase.PaymentCard;
-import com.ghost.csbstoreapi.model.purchase.PaymentSlip;
+import com.ghost.csbstoreapi.model.purchase.*;
 import com.ghost.csbstoreapi.model.user.Address;
 import com.ghost.csbstoreapi.model.user.Client;
 import com.ghost.csbstoreapi.repositories.*;
@@ -41,6 +38,9 @@ public class DbLoad implements CommandLineRunner {
     private BuyOrderRepository buyOrderRepository;
     @Autowired
     private PaymentRepository paymentRepository;
+    @Autowired
+    private OrderItemRepository orderItemRepository;
+
 
     @Override
     public void run(String... args) throws Exception {
@@ -99,6 +99,22 @@ public class DbLoad implements CommandLineRunner {
 
         buyOrderRepository.saveAll(Arrays.asList(bo1,bo2));
         paymentRepository.saveAll(Arrays.asList(pay1,pay2));
+
+        OrderItem oi1 = new OrderItem(bo1, prod1, 0.00, 1, 2000.00);
+        OrderItem oi2 = new OrderItem(bo1, prod3, 0.00, 2, 80.00);
+        OrderItem oi3 = new OrderItem(bo2, prod2, 100.00, 1, 800.00);
+
+        bo1.getOrderItemSet().addAll(Arrays.asList(oi1, oi2));
+        bo2.getOrderItemSet().addAll(Arrays.asList(oi3));
+
+        prod1.getOrderItemSet().addAll(Arrays.asList(oi1));
+        prod2.getOrderItemSet().addAll(Arrays.asList(oi3));
+        prod3.getOrderItemSet().addAll(Arrays.asList(oi2));
+
+        orderItemRepository.saveAll(Arrays.asList(oi1,oi2,oi3));
+
+
+
 
 
     }

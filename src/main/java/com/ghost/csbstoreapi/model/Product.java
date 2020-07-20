@@ -4,12 +4,13 @@ package com.ghost.csbstoreapi.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.ghost.csbstoreapi.model.purchase.BuyOrder;
+import com.ghost.csbstoreapi.model.purchase.OrderItem;
+import com.ghost.csbstoreapi.model.purchase.OrderItemPK;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 public class Product implements Serializable {
@@ -29,6 +30,9 @@ public class Product implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> categories = new ArrayList<>();
 
+    @OneToMany(mappedBy = "orderItemPK.product")
+    private Set<OrderItem> orderItemSet = new HashSet<>();
+
     public Product() {
     }
 
@@ -36,6 +40,14 @@ public class Product implements Serializable {
         this.id = id;
         this.name = name;
         this.price = price;
+    }
+
+    public List<BuyOrder> getBuyOrderList(){
+        List<BuyOrder> list = new ArrayList<>();
+        for (OrderItem x : orderItemSet) {
+            list.add(x.getBuyOrder());
+        }
+        return list;
     }
 
     public Integer getId() {
@@ -70,6 +82,15 @@ public class Product implements Serializable {
         this.categories = categories;
     }
 
+    //ORDER ITEM
+    public Set<OrderItem> getOrderItemSet() {
+        return orderItemSet;
+    }
+
+    public void setOrderItemSet(Set<OrderItem> orderItemSet) {
+        this.orderItemSet = orderItemSet;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -92,4 +113,6 @@ public class Product implements Serializable {
                 ", categories=" + categories +
                 '}';
     }
+
+
 }
