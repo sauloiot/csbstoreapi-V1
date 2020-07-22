@@ -1,14 +1,14 @@
 package com.ghost.csbstoreapi.config;
 
-import com.ghost.csbstoreapi.model.Category;
-import com.ghost.csbstoreapi.model.Product;
-import com.ghost.csbstoreapi.model.enums.ClientType;
-import com.ghost.csbstoreapi.model.enums.StatePayment;
-import com.ghost.csbstoreapi.model.location.City;
-import com.ghost.csbstoreapi.model.location.State;
-import com.ghost.csbstoreapi.model.purchase.*;
-import com.ghost.csbstoreapi.model.user.Address;
-import com.ghost.csbstoreapi.model.user.Client;
+import com.ghost.csbstoreapi.models.Category;
+import com.ghost.csbstoreapi.models.Product;
+import com.ghost.csbstoreapi.models.enums.ClientType;
+import com.ghost.csbstoreapi.models.enums.StatePayment;
+import com.ghost.csbstoreapi.models.location.City;
+import com.ghost.csbstoreapi.models.location.State;
+import com.ghost.csbstoreapi.models.purchase.*;
+import com.ghost.csbstoreapi.models.user.Address;
+import com.ghost.csbstoreapi.models.user.Client;
 import com.ghost.csbstoreapi.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -19,7 +19,6 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 @Configuration
-@Profile({"test"})
 public class DbLoad implements CommandLineRunner {
 
     @Autowired
@@ -39,8 +38,7 @@ public class DbLoad implements CommandLineRunner {
     @Autowired
     private PaymentRepository paymentRepository;
     @Autowired
-    private OrderItemRepository orderItemRepository;
-
+    private ItemBuyOrderRepository itemBuyOrderRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -69,8 +67,8 @@ public class DbLoad implements CommandLineRunner {
         City city2 = new City(null, "São Paulo", st2);
         City city3 = new City(null, "Campinas", st2);
 
-        st1.getCityList().addAll(Arrays.asList(city1));
-        st2.getCityList().addAll(Arrays.asList(city2, city3));
+        st1.getCidades().addAll(Arrays.asList(city1));
+        st2.getCidades().addAll(Arrays.asList(city2, city3));
 
         stateRepository.saveAll(Arrays.asList(st1, st2));
         cityRepository.saveAll(Arrays.asList(city1,city2,city3));
@@ -80,7 +78,7 @@ public class DbLoad implements CommandLineRunner {
 
         Address address1 = new Address(null, "Rua Chuck","1", "The Home", "The District", "00001-001", cli1, city1);
         Address address2 = new Address(null, "Vera Arruda","175", "Apartamento", "Ponta verde", "00001-001", cli1, city1);
-        cli1.getAddressList().addAll(Arrays.asList(address1,address2));
+        cli1.getAddress().addAll(Arrays.asList(address1,address2));
 
         clientRepository.saveAll(Arrays.asList(cli1));
         addressRepository.saveAll(Arrays.asList(address1, address2));
@@ -95,24 +93,25 @@ public class DbLoad implements CommandLineRunner {
         Payment pay2 = new PaymentSlip(null, StatePayment.PENDING, bo2, sdf.parse("20/10/2017 00:00"), null);
         bo2.setPayment(pay2);
 
-        cli1.getOrderList().addAll(Arrays.asList(bo1, bo2));
+        cli1.getBuyOrder().addAll(Arrays.asList(bo1, bo2));
 
         buyOrderRepository.saveAll(Arrays.asList(bo1,bo2));
         paymentRepository.saveAll(Arrays.asList(pay1,pay2));
 
-        OrderItem oi1 = new OrderItem(bo1, prod1, 0.00, 1, 2000.00);
-        OrderItem oi2 = new OrderItem(bo1, prod3, 0.00, 2, 80.00);
-        OrderItem oi3 = new OrderItem(bo2, prod2, 100.00, 1, 800.00);
+        ItemBuyOrder oi1 = new ItemBuyOrder(bo1, prod1, 0.00, 1, 2000.00);
+        ItemBuyOrder oi2 = new ItemBuyOrder(bo1, prod3, 0.00, 2, 80.00);
+        ItemBuyOrder oi3 = new ItemBuyOrder(bo2, prod2, 100.00, 1, 800.00);
 
         bo1.getOrderItemSet().addAll(Arrays.asList(oi1, oi2));
         bo2.getOrderItemSet().addAll(Arrays.asList(oi3));
 
-        prod1.getOrderItemSet().addAll(Arrays.asList(oi1));
-        prod2.getOrderItemSet().addAll(Arrays.asList(oi3));
-        prod3.getOrderItemSet().addAll(Arrays.asList(oi2));
+        prod1.getItemBuyOrder().addAll(Arrays.asList(oi1));
+        prod2.getItemBuyOrder().addAll(Arrays.asList(oi3));
+        prod3.getItemBuyOrder().addAll(Arrays.asList(oi2));
 
-        orderItemRepository.saveAll(Arrays.asList(oi1,oi2,oi3));
+        itemBuyOrderRepository.saveAll(Arrays.asList(oi1,oi2,oi3));
 
+    //SECOND USER
 
 
 
