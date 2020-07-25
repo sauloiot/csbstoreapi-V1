@@ -13,13 +13,12 @@ import com.ghost.csbstoreapi.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 @Configuration
-public class DbLoad implements CommandLineRunner {
+public class DbLoad2 implements CommandLineRunner {
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -72,44 +71,46 @@ public class DbLoad implements CommandLineRunner {
 
         stateRepository.saveAll(Arrays.asList(st1, st2));
         cityRepository.saveAll(Arrays.asList(city1,city2,city3));
+        Client cli1 = new Client(null, "Maria Silva", "maria@gmail.com", "36378912377", ClientType.PHYSICALPERSON);
 
-        Client cli1 = new Client(null, "Chuck Norris", "CN@hotmail.com", "000.000.001-01", ClientType.PHYSICALPERSON );
-        cli1.getPhones().addAll(Arrays.asList("000000001", "000000002"));
+        cli1.getPhones().addAll(Arrays.asList("27363323", "93838393"));
 
-        Address address1 = new Address(null, "Rua Chuck","1", "The Home", "The District", "00001-001", cli1, city1);
-        Address address2 = new Address(null, "Vera Arruda","175", "Apartamento", "Ponta verde", "00001-001", cli1, city1);
-        cli1.getAddress().addAll(Arrays.asList(address1,address2));
+        Address e1 = new Address(null, "Rua Flores", "300", "Apto 303", "Jardim", "38220834", cli1, city1);
+        Address e2 = new Address(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", cli1, city2);
+
+        cli1.getAddress().addAll(Arrays.asList(e1, e2));
 
         clientRepository.saveAll(Arrays.asList(cli1));
-        addressRepository.saveAll(Arrays.asList(address1, address2));
+        addressRepository.saveAll(Arrays.asList(e1, e2));
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        BuyOrder bo1 = new BuyOrder(null, sdf.parse("30/09/2017 10:32"), cli1, address1 );
-        BuyOrder bo2 = new BuyOrder(null, sdf.parse("02/10/2017 09:02"), cli1, address2 );
 
-        Payment pay1 = new PaymentCard(null, StatePayment.PAID, bo1, 6);
-        bo1.setPayment(pay1);
+        BuyOrder ped1 = new BuyOrder(null, sdf.parse("30/09/2017 10:32"), cli1, e1);
+        BuyOrder ped2 = new BuyOrder(null, sdf.parse("10/10/2017 19:35"), cli1, e2);
 
-        Payment pay2 = new PaymentSlip(null, StatePayment.PENDING, bo2, sdf.parse("20/10/2017 00:00"), null);
-        bo2.setPayment(pay2);
+        Payment pagto1 = new PaymentCard(null, StatePayment.PAID, ped1, 6);
+        ped1.setPayment(pagto1);
 
-        cli1.getBuyOrder().addAll(Arrays.asList(bo1, bo2));
+        Payment pagto2 = new PaymentSlip(null, StatePayment.PAID, ped2, sdf.parse("20/10/2017 00:00"), null);
+        ped2.setPayment(pagto2);
 
-        buyOrderRepository.saveAll(Arrays.asList(bo1,bo2));
-        paymentRepository.saveAll(Arrays.asList(pay1,pay2));
+        cli1.getBuyOrder().addAll(Arrays.asList(ped1, ped2));
 
-        ItemBuyOrder oi1 = new ItemBuyOrder(bo1, prod1, 0.00, 1, 2000.00);
-        ItemBuyOrder oi2 = new ItemBuyOrder(bo1, prod3, 0.00, 2, 80.00);
-        ItemBuyOrder oi3 = new ItemBuyOrder(bo2, prod2, 100.00, 1, 800.00);
+        buyOrderRepository.saveAll(Arrays.asList(ped1, ped2));
+        paymentRepository.saveAll(Arrays.asList(pagto1, pagto2));
 
-        bo1.getOrderItemSet().addAll(Arrays.asList(oi1, oi2));
-        bo2.getOrderItemSet().addAll(Arrays.asList(oi3));
+        ItemBuyOrder ip1 = new ItemBuyOrder(ped1, prod1, 0.00, 1, 2000.00);
+        ItemBuyOrder ip2 = new ItemBuyOrder(ped1, prod2, 0.00, 2, 80.00);
+        ItemBuyOrder ip3 = new ItemBuyOrder(ped2, prod3, 100.00, 1, 800.00);
 
-        prod1.getItemBuyOrder().addAll(Arrays.asList(oi1));
-        prod2.getItemBuyOrder().addAll(Arrays.asList(oi3));
-        prod3.getItemBuyOrder().addAll(Arrays.asList(oi2));
+        ped1.getOrderItemSet().addAll(Arrays.asList(ip1, ip2));
+        ped2.getOrderItemSet().addAll(Arrays.asList(ip3));
 
-        itemBuyOrderRepository.saveAll(Arrays.asList(oi1,oi2,oi3));
+        prod1.getItemBuyOrder().addAll(Arrays.asList(ip1));
+        prod2.getItemBuyOrder().addAll(Arrays.asList(ip3));
+        prod3.getItemBuyOrder().addAll(Arrays.asList(ip2));
+
+        itemBuyOrderRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
 
 
     }
