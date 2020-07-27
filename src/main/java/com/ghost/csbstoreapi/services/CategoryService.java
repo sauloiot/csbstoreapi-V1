@@ -1,5 +1,6 @@
 package com.ghost.csbstoreapi.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.ghost.csbstoreapi.services.exceptions.DataIntegrityException;
@@ -40,7 +41,9 @@ public class CategoryService {
 		}catch (DataIntegrityViolationException e){
 			throw new DataIntegrityException("You cannot delete a category with associated products");
 		}
+	}
 
-
+	public List<Category> findAll(){
+		return repo.findAll();
 	}
 }
