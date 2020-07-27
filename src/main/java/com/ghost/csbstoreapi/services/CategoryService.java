@@ -2,7 +2,9 @@ package com.ghost.csbstoreapi.services;
 
 import java.util.Optional;
 
+import com.ghost.csbstoreapi.services.exceptions.DataIntegrityException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.ghost.csbstoreapi.models.Category;
@@ -30,4 +32,15 @@ public class CategoryService {
 	    find(obj.getId());
 	    return repo.save(obj);
     }
+
+    public void delete(Integer id){
+		find(id);
+		try {
+			repo.deleteById(id);
+		}catch (DataIntegrityViolationException e){
+			throw new DataIntegrityException("You cannot delete a category with associated products");
+		}
+
+
+	}
 }
