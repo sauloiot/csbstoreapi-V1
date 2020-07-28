@@ -45,6 +45,12 @@ public class DbLoad implements CommandLineRunner {
 
         Category cat1 = new Category(null, "INFORMATICA");
         Category cat2 = new Category(null, "ESCRITORIO");
+        Category cat3 = new Category(null, "Cama mesa e banho");
+        Category cat4 = new Category(null, "DB load category 4");
+        Category cat5 = new Category(null, "DB load category 5");
+        Category cat6 = new Category(null, "DB load category 6");
+        Category cat7 = new Category(null, "DB load category 7");
+        Category cat8 = new Category(null, "DB load category 8");
 
         Product prod1 = new Product(null, "Computador", 2000.0);
         Product prod2 = new Product(null, "Impressora", 800.0);
@@ -57,7 +63,7 @@ public class DbLoad implements CommandLineRunner {
         prod2.getCategories().addAll(Arrays.asList(cat1,cat2));
         prod3.getCategories().addAll(Arrays.asList(cat1));
 
-        categoryRepository.saveAll(Arrays.asList(cat1, cat2));
+        categoryRepository.saveAll(Arrays.asList(cat1, cat2,cat3,cat4,cat5,cat6,cat7,cat8));
         productRepository.saveAll(Arrays.asList(prod1,prod2,prod3));
 
         State st1 = new State(null, "Alagoas");
