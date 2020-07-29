@@ -3,6 +3,7 @@ package com.ghost.csbstoreapi.services;
 import java.util.List;
 import java.util.Optional;
 
+import com.ghost.csbstoreapi.dto.CategoryDTO;
 import com.ghost.csbstoreapi.services.exceptions.DataIntegrityException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -54,5 +55,9 @@ public class CategoryService {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction),
 				orderBy);
 		return repo.findAll(pageRequest);
+	}
+
+	public Category fromDTO(CategoryDTO objDto) {
+		return new Category(objDto.getId(), objDto.getName());
 	}
 }

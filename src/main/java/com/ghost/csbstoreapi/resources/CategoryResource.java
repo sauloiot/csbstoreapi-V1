@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import com.ghost.csbstoreapi.services.CategoryService;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,7 +30,8 @@ public class CategoryResource {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@RequestBody Category obj){
+	public ResponseEntity<Void> insert(@Valid @RequestBody CategoryDTO objDTO){
+	    Category obj = service.fromDTO(objDTO);
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder
 				.fromCurrentRequest()
@@ -40,7 +42,8 @@ public class CategoryResource {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Void> update(@RequestBody Category obj, @PathVariable Integer id ){
+    public ResponseEntity<Void> update(@Valid @RequestBody CategoryDTO objDto, @PathVariable Integer id ){
+	    Category obj = service.fromDTO(objDto);
 	    obj.setId(id);
 	    obj = service.update(obj);
 	    return ResponseEntity.noContent().build();
