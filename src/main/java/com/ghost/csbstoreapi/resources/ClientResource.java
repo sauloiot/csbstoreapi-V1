@@ -1,6 +1,7 @@
 package com.ghost.csbstoreapi.resources;
 
 import com.ghost.csbstoreapi.dto.ClientDTO;
+import com.ghost.csbstoreapi.dto.ClientNewDTO;
 import com.ghost.csbstoreapi.models.user.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -9,8 +10,10 @@ import org.springframework.web.bind.annotation.*;
 
 
 import com.ghost.csbstoreapi.services.ClientService;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +28,18 @@ public class ClientResource {
 	public ResponseEntity<Client> find(@PathVariable Integer id) {
 		Client obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
+	}
+
+	@RequestMapping(method = RequestMethod.POST)
+	public ResponseEntity<Void> insert(@Valid @RequestBody ClientNewDTO objDTO){
+		Client obj = service.fromDTO(objDTO);
+		obj = service.insert(obj);
+		URI uri = ServletUriComponentsBuilder
+				.fromCurrentRequest()
+				.path("/{id}")
+				.buildAndExpand(obj.getId())
+				.toUri();
+		return ResponseEntity.created(uri).build();
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
