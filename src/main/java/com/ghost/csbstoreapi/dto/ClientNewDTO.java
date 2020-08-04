@@ -1,24 +1,40 @@
 package com.ghost.csbstoreapi.dto;
 
+import com.ghost.csbstoreapi.services.validation.ClientInsert;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
+@ClientInsert
 public class ClientNewDTO  implements Serializable {
     private static final long serialVersionUID = 1L;
 
 
     //client
+    @NotEmpty(message = "Required field")
+    @Length(min = 5, max = 120, message = "The field must have a minimum of 5 and a maximum of 80 characters")
     private String name;
+    @NotEmpty(message = "Required field")
+    @Email(message = "Invalid email")
     private String email;
+    @NotEmpty(message = "Required field")
     private String cpfOrCnpj;
     private Integer type;
+
     //address
+    @NotEmpty(message = "Required field")
     private String street;
+    @NotEmpty(message = "Required field")
     private String number;
     private String complement;
     private String district;
+    @NotEmpty(message = "Required field")
     private String cep;
 
     //phones
+    @NotEmpty(message = "Required field")
     private String phone1;
     private String phone2;
     private String phone3;
