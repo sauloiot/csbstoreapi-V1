@@ -4,17 +4,17 @@ import com.ghost.csbstoreapi.models.Product;
 
 import java.io.Serializable;
 
-public class ATAProductDTO implements Serializable {
+public class ProductDTO  implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Integer id;
     private String name;
     private Double price;
 
-    public ATAProductDTO() {
+    public ProductDTO() {
     }
 
-    public ATAProductDTO(Product obj){
+    public ProductDTO(Product obj){
         id = obj.getId();
         name = obj.getName();
         price = obj.getPrice();

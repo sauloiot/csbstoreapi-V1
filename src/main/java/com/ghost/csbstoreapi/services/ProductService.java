@@ -3,7 +3,7 @@ package com.ghost.csbstoreapi.services;
 import com.ghost.csbstoreapi.models.Category;
 import com.ghost.csbstoreapi.models.Product;
 import com.ghost.csbstoreapi.repositories.CategoryRepository;
-import com.ghost.csbstoreapi.repositories.ATAProductRepository;
+import com.ghost.csbstoreapi.repositories.ProductRepository;
 import com.ghost.csbstoreapi.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,14 +11,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ATAProductService {
+public class ProductService {
 	
 	@Autowired
-	private ATAProductRepository repo;
+	private ProductRepository repo;
 
 	@Autowired
 	private CategoryRepository categoryRepository;

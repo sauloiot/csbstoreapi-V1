@@ -55,16 +55,56 @@ public class DbLoad implements CommandLineRunner {
         Product prod1 = new Product(null, "Computador", 2000.0);
         Product prod2 = new Product(null, "Impressora", 800.0);
         Product prod3 = new Product(null, "Mouse", 150.0);
+        Product prod4 = new Product(null, "prod4", 150.0);
+        Product prod5 = new Product(null, "prod5", 150.0);
+        Product prod6 = new Product(null, "prod6", 150.0);
+        Product prod7 = new Product(null, "prod7", 150.0);
+        Product prod8 = new Product(null, "prod8", 150.0);
+        Product prod9 = new Product(null, "prod9", 150.0);
+        Product prod10 = new Product(null, "prod10", 150.0);
+        Product prod11 = new Product(null, "prod11", 150.0);
+        Product prod12 = new Product(null, "prod12", 150.0);
+        Product prod13 = new Product(null, "prod13", 150.0);
+        Product prod14 = new Product(null, "prod14", 150.0);
+        Product prod15 = new Product(null, "prod15", 150.0);
+        Product prod16 = new Product(null, "prod16", 150.0);
+        Product prod17 = new Product(null, "prod17", 150.0);
+        Product prod18 = new Product(null, "prod18", 150.0);
+        Product prod19 = new Product(null, "prod19", 150.0);
 
         cat1.getProducts().addAll((Arrays.asList(prod1,prod2,prod3)));
-        cat2.getProducts().addAll((Arrays.asList(prod2)));
+        cat2.getProducts().addAll((Arrays.asList(prod4, prod14,prod11)));
+        cat3.getProducts().addAll((Arrays.asList(prod5, prod15)));
+        cat4.getProducts().addAll((Arrays.asList(prod6, prod16, prod13)));
+        cat5.getProducts().addAll((Arrays.asList(prod7, prod17)));
+        cat6.getProducts().addAll((Arrays.asList(prod8, prod18)));
+        cat7.getProducts().addAll((Arrays.asList(prod9, prod19)));
+        cat8.getProducts().addAll((Arrays.asList(prod10, prod12)));
+
 
         prod1.getCategories().addAll(Arrays.asList(cat1));
-        prod2.getCategories().addAll(Arrays.asList(cat1,cat2));
+        prod2.getCategories().addAll(Arrays.asList(cat1));
         prod3.getCategories().addAll(Arrays.asList(cat1));
+        prod4.getCategories().addAll(Arrays.asList(cat2));
+        prod5.getCategories().addAll(Arrays.asList(cat3));
+        prod6.getCategories().addAll(Arrays.asList(cat4));
+        prod7.getCategories().addAll(Arrays.asList(cat5));
+        prod8.getCategories().addAll(Arrays.asList(cat6));
+        prod9.getCategories().addAll(Arrays.asList(cat7));
+        prod10.getCategories().addAll(Arrays.asList(cat8));
+        prod11.getCategories().addAll(Arrays.asList(cat2));
+        prod12.getCategories().addAll(Arrays.asList(cat8));
+        prod13.getCategories().addAll(Arrays.asList(cat4));
+        prod14.getCategories().addAll(Arrays.asList(cat2));
+        prod15.getCategories().addAll(Arrays.asList(cat3));
+        prod16.getCategories().addAll(Arrays.asList(cat4));
+        prod17.getCategories().addAll(Arrays.asList(cat5));
+        prod18.getCategories().addAll(Arrays.asList(cat6));
+        prod19.getCategories().addAll(Arrays.asList(cat7));
 
         categoryRepository.saveAll(Arrays.asList(cat1, cat2,cat3,cat4,cat5,cat6,cat7,cat8));
-        productRepository.saveAll(Arrays.asList(prod1,prod2,prod3));
+        productRepository.saveAll(Arrays.asList(prod1,prod2,prod3,prod4,prod5,prod6,prod7,
+                prod8,prod9,prod10,prod11,prod12,prod13,prod14,prod15,prod16,prod17,prod18,prod19));
 
         State st1 = new State(null, "Alagoas");
         State st2 = new State(null, "São Paulo");

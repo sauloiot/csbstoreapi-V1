@@ -1,9 +1,9 @@
 package com.ghost.csbstoreapi.resources;
 
-import com.ghost.csbstoreapi.dto.ATAProductDTO;
+import com.ghost.csbstoreapi.dto.ProductDTO;
 import com.ghost.csbstoreapi.models.Product;
-import com.ghost.csbstoreapi.resources.utils.ATAURLUtil;
-import com.ghost.csbstoreapi.services.ATAProductService;
+import com.ghost.csbstoreapi.resources.utils.URLUtil;
+import com.ghost.csbstoreapi.services.ProductService;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +19,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value="/products")
-public class ATAProductResource {
+public class ProductResource {
 
 	@Autowired
-	private ATAProductService service;
+	private ProductService service;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Product> find(@PathVariable Integer id) {
@@ -31,17 +31,17 @@ public class ATAProductResource {
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<Page<ATAProductDTO>> findPage(
+	public ResponseEntity<Page<ProductDTO>> findPage(
 			@RequestParam(value = "name", defaultValue = "") String name,
 			@RequestParam(value = "categories", defaultValue = "") String categories,
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
 			@RequestParam(value = "orderBy", defaultValue = "name") String orderBy,
 			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
-		String decodedName = ATAURLUtil.decodeParam(name);
-		List<Integer> ids = ATAURLUtil.decodeIntList(categories);
+		String decodedName = URLUtil.decodeParam(name);
+		List<Integer> ids = URLUtil.decodeIntList(categories);
 		Page<Product> list = service.search(decodedName, ids, page, linesPerPage, orderBy, direction);
-		Page<ATAProductDTO> listDto = list.map(obj -> new ATAProductDTO(obj));
+		Page<ProductDTO> listDto = list.map(obj -> new ProductDTO(obj));
 		return ResponseEntity.ok().body(listDto);
 	}
 

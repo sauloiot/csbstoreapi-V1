@@ -55,6 +55,14 @@ public class BuyOrder implements Serializable {
 		this.addressDelivery = addressDelivery;
 	}
 
+	public Double getTotalValue(){
+		double sum = 0.0;
+		for (ItemBuyOrder ibo : orderItemSet){
+			sum = sum + ibo.getSubTotal();
+		}
+		return sum;
+	}
+
 	public Integer getId() {
 		return id;
 	}
