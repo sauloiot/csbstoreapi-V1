@@ -5,11 +5,13 @@ import java.util.Date;
 import javax.persistence.Entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.ghost.csbstoreapi.models.enums.StatePayment;
 import com.ghost.csbstoreapi.models.purchase.BuyOrder;
 import com.ghost.csbstoreapi.models.purchase.Payment;
 
 @Entity
+@JsonTypeName("paymentSlip")
 public class PaymentSlip extends Payment {
 	private static final long serialVersionUID = 1L;
 
