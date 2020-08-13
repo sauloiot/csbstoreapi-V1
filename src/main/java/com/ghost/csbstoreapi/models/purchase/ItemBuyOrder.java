@@ -1,6 +1,9 @@
 package com.ghost.csbstoreapi.models.purchase;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -109,5 +112,19 @@ public class ItemBuyOrder implements Serializable {
 			return false;
 		return true;
 	}
-	
+
+	@Override
+	public String toString() {
+		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+		final StringBuffer sb = new StringBuffer("ItemBuyOrder{");
+		sb.append(getProduct().getName());
+		sb.append(", Quantity: ");
+		sb.append(getQuantity());
+		sb.append(", Unity price: ");
+		sb.append(nf.format(getPrice()));
+		sb.append(", Subtotal: ");
+		sb.append(nf.format(getSubTotal()));
+		sb.append("\n");
+		return sb.toString();
+	}
 }

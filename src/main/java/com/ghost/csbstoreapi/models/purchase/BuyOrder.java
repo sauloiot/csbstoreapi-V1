@@ -1,8 +1,11 @@
 package com.ghost.csbstoreapi.models.purchase;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -135,6 +138,26 @@ public class BuyOrder implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+		final StringBuffer sb = new StringBuffer("BuyOrder{");
+		sb.append("Order number: ");
+		sb.append(getId());
+		sb.append(", Instant: ");
+		sb.append(sdf.format(getInstant()));
+		sb.append(", Client: ");
+		sb.append(getClient().getName());
+		sb.append(", Payment Status: ");
+		sb.append(getPayment().getStatePayment().getDescricao());
+		sb.append("\nDetails\n");
+		for (ItemBuyOrder ib : getOrderItemSet()){
+			sb.append(ib.toString());
+		}
+		sb.append("Total Value: ");
+		sb.append(nf.format(getTotalValue()) +"}");
+		return sb.toString();
+	}
 }

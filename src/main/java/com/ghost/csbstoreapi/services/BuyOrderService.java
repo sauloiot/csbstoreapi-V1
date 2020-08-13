@@ -34,6 +34,9 @@ public class BuyOrderService {
 
 	@Autowired
 	private ItemBuyOrderRepository itemBuyOrderRepository;
+
+	@Autowired
+	private ClientService clientService;
 	
 	public BuyOrder find(Integer id) {
 		Optional<BuyOrder> obj = repo.findById(id);
@@ -45,6 +48,7 @@ public class BuyOrderService {
 	public BuyOrder insert(BuyOrder obj){
 		obj.setId(null);
 		obj.setInstant(new Date());
+		obj.setClient(clientService.find(obj.getClient().getId()));
 		obj.getPayment().setStatePayment(StatePayment.PENDING);
 		obj.getPayment().setBuyOrder(obj);
 		if (obj.getPayment() instanceof PaymentSlip){
@@ -55,11 +59,13 @@ public class BuyOrderService {
 		paymentRepository.save(obj.getPayment());
 		for (ItemBuyOrder ibo : obj.getOrderItemSet()){
 			ibo.setDiscount(0.0);
+			ibo.setProduct(productService.find(ibo.getProduct().getId()));
 			ibo.setPrice(productService.find(ibo.getProduct().getId()).getPrice());
 			ibo.setBuyOrder(obj);
 
 		}
 		itemBuyOrderRepository.saveAll(obj.getOrderItemSet());
+		System.out.println(obj);
 		return obj;
 	}
 
