@@ -8,6 +8,7 @@ import com.ghost.csbstoreapi.models.purchase.ItemBuyOrder;
 import com.ghost.csbstoreapi.models.purchase.PaymentSlip;
 import com.ghost.csbstoreapi.repositories.ItemBuyOrderRepository;
 import com.ghost.csbstoreapi.repositories.PaymentRepository;
+import com.ghost.csbstoreapi.services.Email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +38,9 @@ public class BuyOrderService {
 
 	@Autowired
 	private ClientService clientService;
+
+	@Autowired
+	private EmailService emailService;
 	
 	public BuyOrder find(Integer id) {
 		Optional<BuyOrder> obj = repo.findById(id);
@@ -65,7 +69,7 @@ public class BuyOrderService {
 
 		}
 		itemBuyOrderRepository.saveAll(obj.getOrderItemSet());
-		System.out.println(obj);
+		emailService.sendBuyOrderConfirmationEmail(obj);
 		return obj;
 	}
 
