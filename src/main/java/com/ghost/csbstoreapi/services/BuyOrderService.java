@@ -44,8 +44,11 @@ public class BuyOrderService {
 	
 	public BuyOrder find(Integer id) {
 		Optional<BuyOrder> obj = repo.findById(id);
+		//send email on find
+		//emailService.sendBuyOrderConfirmationEmail(obj.get());
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto not found! Id: " + id + ", Type: " + BuyOrder.class.getName()));
+
 	}
 
 	@Transactional
@@ -69,7 +72,8 @@ public class BuyOrderService {
 
 		}
 		itemBuyOrderRepository.saveAll(obj.getOrderItemSet());
-		emailService.sendBuyOrderConfirmationEmail(obj);
+//		emailService.sendBuyOrderConfirmationEmail(obj);
+		emailService.sendOrderConfirmationHtmlEmail(obj);
 		return obj;
 	}
 

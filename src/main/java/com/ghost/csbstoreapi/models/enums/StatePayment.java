@@ -2,7 +2,8 @@ package com.ghost.csbstoreapi.models.enums;
 
 public enum StatePayment {
 
-	PENDING(1, "Payment Pending"),
+//	PENDING(1, "Payment Pending"),
+	PENDING(1, "Aguardando Pagamento"),
 	PAID(2, "Payment Paid"),
 	CANCELED(3, "Payment Canceled");
 	
