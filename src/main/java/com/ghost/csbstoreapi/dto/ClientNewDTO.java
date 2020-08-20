@@ -1,5 +1,6 @@
 package com.ghost.csbstoreapi.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ghost.csbstoreapi.services.validation.ClientInsert;
 import org.hibernate.validator.constraints.Length;
 
@@ -22,6 +23,9 @@ public class ClientNewDTO  implements Serializable {
     @NotEmpty(message = "Required field")
     private String cpfOrCnpj;
     private Integer type;
+    
+    @NotEmpty(message = "Required field")
+    private String password;
 
     //address
     @NotEmpty(message = "Required field")
@@ -75,6 +79,14 @@ public class ClientNewDTO  implements Serializable {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getStreet() {

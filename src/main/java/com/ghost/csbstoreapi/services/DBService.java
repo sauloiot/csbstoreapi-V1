@@ -11,6 +11,7 @@ import com.ghost.csbstoreapi.models.user.Address;
 import com.ghost.csbstoreapi.models.user.Client;
 import com.ghost.csbstoreapi.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -20,6 +21,8 @@ import java.util.Arrays;
 @Service
 public class DBService {
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -120,10 +123,10 @@ public class DBService {
         stateRepository.saveAll(Arrays.asList(st1, st2));
         cityRepository.saveAll(Arrays.asList(city1,city2,city3));
 
-        Client cli1 = new Client(null, "Chuck Norris", "CN@hotmail.com", "000.000.001-01", ClientType.PHYSICALPERSON );
+        Client cli1 = new Client(null, "Chuck Norris", "CN@hotmail.com", "000.000.001-01", ClientType.PHYSICALPERSON, bCryptPasswordEncoder.encode("1234") );
         cli1.getPhones().addAll(Arrays.asList("000000001", "000000002"));
 
-        Client cli2 = new Client(null, "Maria Silva", "maria@gmail.com", "36378912377", ClientType.PHYSICALPERSON);
+        Client cli2 = new Client(null, "Maria Silva", "maria@gmail.com", "36378912377", ClientType.PHYSICALPERSON, bCryptPasswordEncoder.encode("1234"));
         cli2.getPhones().addAll(Arrays.asList("27363323", "93838393"));
 
         Address address1 = new Address(null, "Rua Chuck","1", "The Home", "The District", "00001-001", cli1, city1);
