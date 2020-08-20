@@ -3,6 +3,7 @@ package com.ghost.csbstoreapi.services;
 import com.ghost.csbstoreapi.models.Category;
 import com.ghost.csbstoreapi.models.Product;
 import com.ghost.csbstoreapi.models.enums.ClientType;
+import com.ghost.csbstoreapi.models.enums.Profile;
 import com.ghost.csbstoreapi.models.enums.StatePayment;
 import com.ghost.csbstoreapi.models.location.City;
 import com.ghost.csbstoreapi.models.location.State;
@@ -123,10 +124,11 @@ public class DBService {
         stateRepository.saveAll(Arrays.asList(st1, st2));
         cityRepository.saveAll(Arrays.asList(city1,city2,city3));
 
-        Client cli1 = new Client(null, "Chuck Norris", "CN@hotmail.com", "000.000.001-01", ClientType.PHYSICALPERSON, bCryptPasswordEncoder.encode("1234") );
+        Client cli1 = new Client(null, "Chuck Norris", "CN@hotmail.com", "22457141052", ClientType.PHYSICALPERSON, bCryptPasswordEncoder.encode("1234") );
         cli1.getPhones().addAll(Arrays.asList("000000001", "000000002"));
 
-        Client cli2 = new Client(null, "Maria Silva", "maria@gmail.com", "36378912377", ClientType.PHYSICALPERSON, bCryptPasswordEncoder.encode("1234"));
+        Client cli2 = new Client(null, "Maria Silva", "saulo.11@hotmail.com", "21828429007", ClientType.PHYSICALPERSON, bCryptPasswordEncoder.encode("1234"));
+        cli2.addPerfil(Profile.ADMIN);
         cli2.getPhones().addAll(Arrays.asList("27363323", "93838393"));
 
         Address address1 = new Address(null, "Rua Chuck","1", "The Home", "The District", "00001-001", cli1, city1);
@@ -134,11 +136,11 @@ public class DBService {
         cli1.getAddress().addAll(Arrays.asList(address1,address2));
 
         Address address3 = new Address(null, "Rua Chuck","1", "The Home", "The District", "00001-001", cli2, city1);
-        Address address = new Address(null, "Vera Arruda","175", "Apartamento", "Ponta verde", "00001-001", cli2, city1);
+        Address address4 = new Address(null, "Vera Arruda","175", "Apartamento", "Ponta verde", "00001-001", cli2, city1);
         cli2.getAddress().addAll(Arrays.asList(address1,address2));
 
-        clientRepository.saveAll(Arrays.asList(cli1));
-        addressRepository.saveAll(Arrays.asList(address1, address2));
+        clientRepository.saveAll(Arrays.asList(cli1, cli2));
+        addressRepository.saveAll(Arrays.asList(address1, address2, address3, address4 ));
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         BuyOrder bo1 = new BuyOrder(null, sdf.parse("30/09/2017 10:32"), cli1, address1 );

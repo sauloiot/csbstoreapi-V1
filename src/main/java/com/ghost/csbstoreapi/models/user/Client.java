@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ghost.csbstoreapi.models.enums.ClientType;
+import com.ghost.csbstoreapi.models.enums.Profile;
 import com.ghost.csbstoreapi.models.purchase.BuyOrder;
 
 @Entity
@@ -33,12 +35,17 @@ public class Client implements Serializable {
 	@ElementCollection
 	@CollectionTable(name="PHONES")
 	private Set<String> phones = new HashSet<>();
+
+	@ElementCollection(fetch=FetchType.EAGER)
+	@CollectionTable(name="PROFILES")
+	private Set<Integer> profiles = new HashSet<>();
 	
 	@JsonIgnore
 	@OneToMany(mappedBy="client")
 	private List<BuyOrder> buyOrder = new ArrayList<>();
 	
 	public Client() {
+		addPerfil(Profile.CLIENT);
 	}
 
 	public Client(Integer id, String name, String email, String cpfOrCnpj, ClientType type, String password) {
@@ -49,6 +56,7 @@ public class Client implements Serializable {
 		this.cpfOrCnpj = cpfOrCnpj;
 		this.type = (type == null) ? null : type.getCod();
 		this.password = password;
+		addPerfil(Profile.CLIENT);
 	}
 
 	public Integer getId() {
@@ -97,6 +105,14 @@ public class Client implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public Set<Profile> getPerfis(){
+		return profiles.stream().map(x -> Profile.toEnum(x)).collect(Collectors.toSet());
+	}
+
+	public void addPerfil(Profile profile){
+		profiles.add(profile.getCod());
 	}
 
 	public List<Address> getAddress() {
