@@ -45,7 +45,7 @@ public class Client implements Serializable {
 	private List<BuyOrder> buyOrder = new ArrayList<>();
 	
 	public Client() {
-		addPerfil(Profile.CLIENT);
+		addProfile(Profile.CLIENT);
 	}
 
 	public Client(Integer id, String name, String email, String cpfOrCnpj, ClientType type, String password) {
@@ -56,7 +56,7 @@ public class Client implements Serializable {
 		this.cpfOrCnpj = cpfOrCnpj;
 		this.type = (type == null) ? null : type.getCod();
 		this.password = password;
-		addPerfil(Profile.CLIENT);
+		addProfile(Profile.CLIENT);
 	}
 
 	public Integer getId() {
@@ -107,11 +107,11 @@ public class Client implements Serializable {
 		this.password = password;
 	}
 
-	public Set<Profile> getPerfis(){
+	public Set<Profile> getProfile(){
 		return profiles.stream().map(x -> Profile.toEnum(x)).collect(Collectors.toSet());
 	}
 
-	public void addPerfil(Profile profile){
+	public void addProfile(Profile profile){
 		profiles.add(profile.getCod());
 	}
 

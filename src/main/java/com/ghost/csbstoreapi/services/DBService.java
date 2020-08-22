@@ -128,7 +128,7 @@ public class DBService {
         cli1.getPhones().addAll(Arrays.asList("000000001", "000000002"));
 
         Client cli2 = new Client(null, "Maria Silva", "saulo.11@hotmail.com", "21828429007", ClientType.PHYSICALPERSON, bCryptPasswordEncoder.encode("1234"));
-        cli2.addPerfil(Profile.ADMIN);
+        cli2.addProfile(Profile.ADMIN);
         cli2.getPhones().addAll(Arrays.asList("27363323", "93838393"));
 
         Address address1 = new Address(null, "Rua Chuck","1", "The Home", "The District", "00001-001", cli1, city1);
