@@ -3,6 +3,7 @@ package com.ghost.csbstoreapi.config;
 import java.util.Arrays;
 
 import com.ghost.csbstoreapi.security.JWTAuthenticationFilter;
+import com.ghost.csbstoreapi.security.JWTAuthorizationFilter;
 import com.ghost.csbstoreapi.security.JWTUtil;
 import com.ghost.csbstoreapi.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(PUBLIC_MATCHERS).permitAll()
                 .anyRequest().authenticated();
         http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
+        http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
