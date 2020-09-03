@@ -9,9 +9,12 @@ import com.ghost.csbstoreapi.dto.ClientDTO;
 import com.ghost.csbstoreapi.dto.ClientNewDTO;
 import com.ghost.csbstoreapi.models.Category;
 import com.ghost.csbstoreapi.models.enums.ClientType;
+import com.ghost.csbstoreapi.models.enums.Profile;
 import com.ghost.csbstoreapi.models.location.City;
 import com.ghost.csbstoreapi.models.user.Address;
 import com.ghost.csbstoreapi.repositories.AddressRepository;
+import com.ghost.csbstoreapi.security.UserSS;
+import com.ghost.csbstoreapi.services.exceptions.AuthorizationException;
 import com.ghost.csbstoreapi.services.exceptions.DataIntegrityException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -44,8 +47,16 @@ public class ClientService {
 
 	@Autowired
 	private AddressRepository addressRepository;
-	
+
+
+
 	public Client find(Integer id) {
+		UserSS user = UserService.authenticated();
+		if (user==null || !user.hasHole(Profile.ADMIN) && !id.equals(user.getId())){
+			throw new AuthorizationException("Access denied");
+		}
+
+
 		Optional<Client> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto not found! Id: " + id + ", Type: " + Client.class.getName()));
