@@ -4,6 +4,7 @@ import com.ghost.csbstoreapi.dto.CategoryDTO;
 import com.ghost.csbstoreapi.models.Category;
 import com.ghost.csbstoreapi.models.purchase.BuyOrder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,5 +37,15 @@ public class BuyOrderResource {
 				.buildAndExpand(obj.getId())
 				.toUri();
 		return ResponseEntity.created(uri).build();
+	}
+
+	@RequestMapping(method=RequestMethod.GET)
+	public ResponseEntity<Page<BuyOrder>> findPage(
+			@RequestParam(value = "page", defaultValue = "0") Integer page,
+			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
+			@RequestParam(value = "orderBy", defaultValue = "instant") String orderBy,
+			@RequestParam(value = "direction", defaultValue = "DESC") String direction) {
+		Page<BuyOrder> list = service.findPage(page,linesPerPage,orderBy,direction);
+		return ResponseEntity.ok().body(list);
 	}
 }

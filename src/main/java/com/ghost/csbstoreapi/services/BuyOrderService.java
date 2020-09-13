@@ -3,13 +3,20 @@ package com.ghost.csbstoreapi.services;
 import java.util.Date;
 import java.util.Optional;
 
+import com.ghost.csbstoreapi.models.Category;
 import com.ghost.csbstoreapi.models.enums.StatePayment;
 import com.ghost.csbstoreapi.models.purchase.ItemBuyOrder;
 import com.ghost.csbstoreapi.models.purchase.PaymentSlip;
+import com.ghost.csbstoreapi.models.user.Client;
 import com.ghost.csbstoreapi.repositories.ItemBuyOrderRepository;
 import com.ghost.csbstoreapi.repositories.PaymentRepository;
+import com.ghost.csbstoreapi.security.UserSS;
 import com.ghost.csbstoreapi.services.Email.EmailService;
+import com.ghost.csbstoreapi.services.exceptions.AuthorizationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.ghost.csbstoreapi.models.purchase.BuyOrder;
@@ -75,6 +82,17 @@ public class BuyOrderService {
 //		emailService.sendBuyOrderConfirmationEmail(obj);
 		emailService.sendOrderConfirmationHtmlEmail(obj);
 		return obj;
+	}
+
+	public Page<BuyOrder> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+		UserSS user = UserService.authenticated();
+		if (user == null) {
+			throw new AuthorizationException("Access denied");
+		}
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction),
+				orderBy);
+		Client client = clientService.find(user.getId());
+		return repo.findByClient(client, pageRequest);
 	}
 
 }
